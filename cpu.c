@@ -242,7 +242,7 @@ void chip8_decode_execute(uint16_t instr) {
             break;
         case 0xE000:
             if ((instr & 0x00FF) == 0x009E) { // Ex9E - SKP Vx - skip next instruction if key with the value of Vx is pressed.
-                if (input[registers[(instr & 0x0F00) >> 8]] == 0x1) programCounter += 2;
+                if (input[registers[(instr & 0x0F00) >> 8]] == 0xFF) programCounter += 2;
             } else if (instr & 0x00A1) { // ExA1 - SKNP Vx - skip next instruction if key with the value of Vx is not pressed.
                 if (input[registers[(instr & 0x0F00) >> 8]] == 0x0) programCounter += 2;
             } else printf("Illegal opcode %02X!\n", instr);
@@ -266,13 +266,13 @@ void chip8_decode_execute(uint16_t instr) {
                     indexRegister += registers[(instr & 0x0F00) >> 8];
                     break;
                 case 0x29: // Fx29 - LD F, Vx - set I = location of sprite for digit Vx.
-                    indexRegister = registers[(instr & 0x0F00) >> 8]*5; // Each sprites occupies 5 bytes in memory, sprites are loaded at 0x0
+                    indexRegister = registers[(instr & 0x0F00) >> 8] * 5; // Each sprites occupies 5 bytes in memory, sprites are loaded at 0x0
                     break;
                 case 0x33: // Fx33 - LD B, Vx - store BCD representation of Vx in memory locations I, I+1, and I+2.
                     temp = registers[(instr & 0x0F00) >> 8];
-                    memory[indexRegister] = (temp - temp % 100)/100;
-                    memory[indexRegister + 1] = (temp % 100 - temp % 10)/10;
-                    memory[indexRegister + 2] = temp%10;
+                    memory[indexRegister] = (temp - temp % 100) / 100;
+                    memory[indexRegister + 1] = (temp % 100 - temp % 10) / 10;
+                    memory[indexRegister + 2] = temp % 10;
                     break;
                 case 0x55: // Fx55 - LD [I], Vx - store registers V0 through Vx in memory starting at location I.
                     for (int i = 0; i <= ((instr & 0x0F00) >> 8); i++) {
@@ -324,10 +324,10 @@ void draw_sprite(uint8_t screenX, uint8_t screenY, uint8_t bytes) {
 }
 
 void generate_state() {
-    snprintf(statusString, 50, "Clock: %i Hz | Speed: %03.02f%%", cpuClock, ((double)cps/(double)cpuClock)*100.0);
+    snprintf(statusString, 50, "Clock: %i Hz | Speed: %03.02f%%", cpuClock, ((double)cps / (double)cpuClock) * 100.0);
 }
 
-double timediff_ms(struct timeval *end, struct timeval *start) {
+double timediff_ms(struct timeval* end, struct timeval* start) {
     double diff =  (end->tv_sec - start->tv_sec) * 1000.0 +
                 (end->tv_usec - start->tv_usec) / 1000.0;
     return diff;

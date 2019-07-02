@@ -1,1 +1,4 @@
 rom/
+.vscode/
+chip8emu
+*.o

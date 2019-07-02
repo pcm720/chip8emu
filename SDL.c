@@ -114,7 +114,7 @@ void render_screen(uint8_t* screen, size_t screen_size, char* statusString) {
     SDL_LockTexture(texture, NULL, &pixels, &pitch);
     for (int i = 0; i < screen_size; i++) {
         pixelPointer = ((uint8_t *)pixels) + (i * 4);
-        memset(pixelPointer, screen[i]*COLOR_MAX, 4);
+        memset(pixelPointer, screen[i]*COLOR_MAX, 3);
     }
     SDL_UnlockTexture(texture);
 

@@ -26,4 +26,4 @@ These are required for some games and programs such as Merlin, Keypad test progr
 ## Screenshots
 
 ![BC Test ROM](images/trip8.png) ![Test ROM](images/pong.png)
-![BC Test ROM](images/bmp.png)
+![BMP](images/bmp.png)
